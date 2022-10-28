@@ -15,6 +15,22 @@
   </head>
 
   <body>
+    <nav>
+      <ul>
+        <li><a href="/users">Users</a></li>
+        <li><a href="/photos">Photos</a></li>
+        <li><a href="/user_sign_up">Sign Up</a></li>
+      </ul>
+    </nav>
+    <!-- to display notices and alerts at the top of the page 9after the nav  whenever there are any -->
+    <% if notice.present? %> <!--present checks for not nil and not populated with only spaces-->
+      <div style="border:thin green solid; color: green"><%= notice %></div> 
+    <% end %>
+
+    <% if alert.present? %> <!--present checks for not nil and not populated with only spaces-->
+      <div style="border:thin red solid; color: red"><%= alert %></div>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

@@ -16,10 +16,19 @@ class UsersController < ApplicationController
     user = User.new
 
     user.username = params.fetch("input_username")
+    user.password = params.fetch("input_password")
+    user.password_confirmation = params.fetch("input_confirm_password")
 
-    user.save
 
-    redirect_to("/users/#{user.username}")
+    save_status = user.save
+
+    if save_status == true
+      session.store(:user_id, user.id)
+      redirect_to("/users/#{user.username}", {:notice => "Welcome #{user.username}!"})
+    else
+      #.to_sentence to convert it to a more human readable sentence
+      redirect_to("/user_sign_up", {:alert => user.errors.full_messages.to_sentence})
+    end
   end
 
   def update
@@ -43,4 +52,7 @@ class UsersController < ApplicationController
     redirect_to("/users")
   end
 
+  def sign_up_form
+    render ({:template => "/users/signup_form.html.erb"})
+  end
 end

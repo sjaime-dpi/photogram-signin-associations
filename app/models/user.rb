@@ -2,13 +2,14 @@
 #
 # Table name: users
 #
-#  id             :integer          not null, primary key
-#  comments_count :integer
-#  likes_count    :integer
-#  private        :boolean
-#  username       :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id              :integer          not null, primary key
+#  comments_count  :integer
+#  likes_count     :integer
+#  password_digest :string
+#  private         :boolean
+#  username        :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class User < ApplicationRecord
@@ -19,6 +20,8 @@ class User < ApplicationRecord
       :uniqueness => { :case_sensitive => false }
     }
   )
+
+  has_secure_password  # comes from gem "bcrypt, defines the .password and .password_confirmation attributes automatically and take care of storing them in a secure way if you have a column called password digest
 
   def comments
     return Comment.where({ :author_id => self.id })

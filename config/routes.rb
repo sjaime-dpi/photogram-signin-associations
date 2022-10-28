@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   get("/", { :controller => "users", :action => "index" })
 
+  # Session routes
+  get("/user_sign_up", {:controller => "users", :action => "sign_up_form" })
+
+
   # User routes
 
   # CREATE
