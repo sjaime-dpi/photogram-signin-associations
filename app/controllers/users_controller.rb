@@ -55,4 +55,45 @@ class UsersController < ApplicationController
   def sign_up_form
     render ({:template => "/users/signup_form.html.erb"})
   end
+
+  def sign_in_form
+    render ({:template => "/users/signin_form.html.erb"})
+  end
+
+  def authenticate
+
+    # get the username from params
+    # get the password from params
+    username=params["input_username"]
+    password=params["input_password"]
+
+    # look up the user in the DB by matching on username
+    user=User.where({:username => username})[0]
+
+    
+    # if there is a user in DB with that username, check if the passwords match
+   
+   
+
+    if user != nil
+      if user.authenticate(password)
+         # if passwords match, set the cookie + redirect to homepage
+        session.store(:user_id, user.id)
+        redirect_to("/", {:notice => "Welcome back, #{username}!"})
+      else 
+        # if passwords don't match, redirect to sign in page
+        redirect_to("/user_sign_in", {:alert => "Nice try, sucker!"})
+      end
+
+    else
+      # if no user is found with that username, redirect back to sign in form
+      redirect_to("/user_sign_in", {:alert => "No one by that name 'round these parts"})
+    end
+
+  end
+
+  def destroy_cookies
+    reset_session
+    redirect_to("/", :notice => "See ya later!")
+  end
 end

@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   # Session routes
   get("/user_sign_up", {:controller => "users", :action => "sign_up_form" })
+  get("/user_sign_out", {:controller => "users", :action => "destroy_cookies" })
+  get("/user_sign_in", {:controller => "users", :action => "sign_in_form" })
+  post("/verify_credentials", {:controller => "users", :action => "authenticate" })
+
 
 
   # User routes
