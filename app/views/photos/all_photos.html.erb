@@ -1,14 +1,19 @@
 <h1>List of photos</h1>
 
-<form action="/insert_photo_record">
-  <label for="browser_input">Image</label>
-  <input id="browser_input" type="text" name="input_image" placeholder="Enter a URL for the image...">
+<% if session["user_id"].present? %>
 
-  <label for="browser_caption">Caption</label>
-  <textarea id="browser_caption" name="input_caption" placeholder="Enter a caption for the photo..."></textarea>
+  <form action="/insert_photo_record">
+    <label for="browser_input">Image</label>
+    <input id="browser_input" type="text" name="input_image" placeholder="Enter a URL for the image...">
 
-  <button>Add photo</button>
-</form>
+    <label for="browser_caption">Caption</label>
+    <textarea id="browser_caption" name="input_caption" placeholder="Enter a caption for the photo..."></textarea>
+
+    <button>Add photo</button>
+  </form>
+  <% else %>
+    <p> Log in to add a Photo </p>
+  <% end %>
 
 <hr>
 

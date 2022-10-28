@@ -20,26 +20,27 @@
   <dd>
     2 months ago
   </dd>
+  <% if session["user_id"].present? && session["user_id"] == @photo.poster.id %>
+    <dt>Edit photo</dt>
+    <dd>
+      <form action="/update_photo/<%= @photo.id %>">
+        <label for="browser_image">Image</label>
+        <input id="browser_image" type="text" name="input_image" placeholder="Enter a URL for the image..." value="<%= @photo.image %>">
 
-  <dt>Edit photo</dt>
-  <dd>
-    <form action="/update_photo/<%= @photo.id %>">
-      <label for="browser_image">Image</label>
-      <input id="browser_image" type="text" name="input_image" placeholder="Enter a URL for the image..." value="<%= @photo.image %>">
+        <label for="browser_caption">Caption</label>
+        <textarea id="browser_caption" name="input_caption" placeholder="Enter a caption for the photo..."><%= @photo.caption %></textarea>
 
-      <label for="browser_caption">Caption</label>
-      <textarea id="browser_caption" name="input_caption" placeholder="Enter a caption for the photo..."><%= @photo.caption %></textarea>
+        <button>Update photo</button>
+      </form>
+    </dd>
 
-      <button>Update photo</button>
-    </form>
-  </dd>
-
-  <dt>Delete photo</dt>
-  <dd>
-    <a href="/delete_photo/<%= @photo.id %>;">
-      Delete this photo
-    </a>
-  </dd>
+    <dt>Delete photo</dt>
+    <dd>
+      <a href="/delete_photo/<%= @photo.id %>;">
+        Delete this photo
+      </a>
+    </dd>
+  <% end %>
 </dl>
 
 <h2>Comments</h2>
@@ -71,15 +72,17 @@
 
 <h3>Add a new comment</h3>
 
-<form action="/insert_comment_record" method="post">
-  <label for="browser_photo_id">Photo ID</label>
-  <input id="browser_photo_id" type="text" value="<%= @photo.id %>" name="input_photo_id">
+<% if session["user_id"].present? %>
 
-  <label for="browser_author_id">Author ID</label>
-  <input id="browser_author_id" type="text" name="input_author_id">
+  <form action="/insert_comment_record">
+    <label for="browser_photo_id">Photo ID</label>
+    <input id="browser_photo_id" type="text" value="<%= @photo.id %>" name="input_photo_id">
 
-  <label for="browser_comment">Comment</label>
-  <textarea id="browser_comment" name="input_body" placeholder="Enter a comment..."></textarea>
+    <label for="browser_comment">Comment</label>
+    <textarea id="browser_comment" name="input_body" placeholder="Enter a comment..."></textarea>
 
-  <button>Add comment</button>
-</form>
+    <button>Add comment</button>
+  </form>
+  <% else %>
+    <p>Login to comment</p>
+  <% end %>
