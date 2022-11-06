@@ -23,9 +23,10 @@ class User < ApplicationRecord
 
   has_secure_password  # comes from gem "bcrypt, defines the .password and .password_confirmation attributes automatically and take care of storing them in a secure way if you have a column called password digest
 
-  def comments
-    return Comment.where({ :author_id => self.id })
-  end
+  has_many(:comments)
+  # def comments
+  #   return Comment.where({ :author_id => self.id })
+  # end
 
   def own_photos
     return Photo.where({ :owner_id => self.id })
