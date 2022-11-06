@@ -16,6 +16,7 @@ class Comment < ApplicationRecord
 
 
   belongs_to :author, :class_name=>"User" # couldn't figure out how to use "commenter" method + "User" class + "author" id, so switched to have method and Id title to match
+      # update: could've used :foreign_key=>"author_id"
 
   # def commenter
   #   return User.where({ :id => self.author_id }).at(0)

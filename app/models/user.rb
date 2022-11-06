@@ -28,9 +28,10 @@ class User < ApplicationRecord
   #   return Comment.where({ :author_id => self.id })
   # end
 
-  def own_photos
-    return Photo.where({ :owner_id => self.id })
-  end
+  has_many(:own_photos, :class_name=>"Photo")
+  # def own_photos
+  #   return Photo.where({ :owner_id => self.id })
+  # end
 
   def likes
     return Like.where({ :fan_id => self.id })
