@@ -28,7 +28,7 @@ class User < ApplicationRecord
   #   return Comment.where({ :author_id => self.id })
   # end
 
-  has_many(:own_photos, :class_name=>"Photo")
+  has_many(:own_photos, :class_name=>"Photo", :foreign_key=>"owner_id")
   # def own_photos
   #   return Photo.where({ :owner_id => self.id })
   # end
@@ -43,19 +43,22 @@ class User < ApplicationRecord
     return Photo.where({ :id => array_of_photo_ids })
   end
 
+  # has_many(:commented_photos, :through => :comments, :source => :photo, :foreign_key => "author_id") ## unsure if this works
   def commented_photos
     array_of_photo_ids = self.comments.map_relation_to_array(:photo_id)
 
     return Photo.where({ :id => array_of_photo_ids }).distinct
   end
 
-  def sent_follow_requests
-    return FollowRequest.where({ :sender_id => self.id })
-  end
+  has_many :sent_follow_requests, :class_name=>"FollowRequest", :foreign_key=>"sender_id"
+  # def sent_follow_requests
+  #   return FollowRequest.where({ :sender_id => self.id })
+  # end
 
-  def received_follow_requests
-    return FollowRequest.where({ :recipient_id => self.id })
-  end
+  has_many :received_follow_requests, :class_name=>"FollowRequest", :foreign_key=>"recipient_id"
+  # def received_follow_requests
+  #   return FollowRequest.where({ :recipient_id => self.id })
+  # end
 
   def accepted_sent_follow_requests
     return self.sent_follow_requests.where({ :status => "accepted" })
